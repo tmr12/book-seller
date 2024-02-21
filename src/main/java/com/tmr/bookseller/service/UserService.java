@@ -16,18 +16,19 @@ public class UserService implements IUserService{
     IUserRepository userRepository;
     @Autowired
     PasswordEncoder passwordEncoder;
-
-    User saveUser(User user) {
+    @Override
+    public User saveUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(Role.USER);
         user.setCreateTime(LocalDateTime.now());
 
         return userRepository.save(user);
     }
-
-    Optional<User> findByUserName(String username) {
+    @Override
+    public Optional<User> findByUserName(String username) {
         return  userRepository.findByUserName(username);
     }
+    @Override
     public void makeAdmin(String username) {
         userRepository.updateUserRole(username, Role.ADMIN);
     }
